@@ -2,34 +2,34 @@ const User = require("../Models/userModel");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
+const { checkPassword } = require("../Utils/PassowordStrength");
 const registerUser = async (req, res) => {
   try {
-    const { id, username, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if (true) {
-      const existingUser = await User.findOne({
-        where: { email: email },
-      });
+    const existingUser = await User.findOne({
+      where: { email: email },
+    });
 
-      if (existingUser) {
-        return res.status(403).json({ message: "User Already Exists" });
-      }
-
-      const saltRounds = 10;
-
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-      const id = await uuidv4();
-      await User.create({
-        id: id,
-        userName: username,
-        password: hashedPassword,
-        email: email,
-      });
-
-      return res.status(200).json({ message: "User registered successfully" });
-    } else {
-      return res.status(400).json({ message: "Invalid input data" });
+    if (existingUser) {
+      return res.status(403).json({ message: "User Already Exists" });
     }
+    if (!checkPassword(password)) {
+      res.status(400).send({ message: "Increase Password Strength" });
+      return;
+    }
+    const saltRounds = 10;
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const id = await uuidv4();
+    await User.create({
+      id: id,
+      userName: username,
+      password: hashedPassword,
+      email: email,
+    });
+
+    return res.status(200).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error during registration:", error);
     return res.status(500).json({ message: "Internal Server Error" });
