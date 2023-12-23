@@ -1,6 +1,6 @@
  const { Sequelize } = require('sequelize');
 
-const externalDatabaseUrl = 'postgres://blogpost_kge2_user:C6gAZ2nUAhUby8D6YixApP4efvm11Kvh@dpg-cm395hmn7f5s73bmedmg-a.oregon-postgres.render.com/blogpost_kge2';
+const externalDatabaseUrl = process.env.DataBaseURL;
 
 const db = new Sequelize(externalDatabaseUrl, {
   dialect: 'postgres',
@@ -19,7 +19,13 @@ const db = new Sequelize(externalDatabaseUrl, {
   } 
 })();
 // module.exports = dbconst { Sequelize } = require('sequelize');
-// const db=new Sequelize('blogpost','root','',{
+
+
+/**
+ * 
+ * Uncomment this to run on localhost but you need to comment abouve one 
+ * 
+ * // const db=new Sequelize('blogpost','root','',{
 //     host:'localhost',
 //     dialect:'mysql',
 //     logging: false, 
@@ -33,5 +39,7 @@ const db = new Sequelize(externalDatabaseUrl, {
 // } catch (error) {
 //     console.log('error');
 // }
+
+ */
     
 module.exports = db;
