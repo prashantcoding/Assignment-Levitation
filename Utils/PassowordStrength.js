@@ -13,8 +13,10 @@ const checkPassword = (password) => {
     const isLowerCaseValid = hasLowerCase;
     const isNumbersValid = hasNumbers;
     const isSpecialCharactersValid = hasSpecialCharacters;
-  
-    if(!isLengthValid || !isUpperCaseValid || !isLengthValid || !isNumbersValid || !isLowerCaseValid || isUpperCaseValid){
+
+   
+
+    if(!isLengthValid || !isUpperCaseValid || !isLengthValid || !isNumbersValid || !isLowerCaseValid ||!isSpecialCharactersValid){
         return false;
     }
     return true
